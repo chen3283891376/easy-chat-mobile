@@ -1,9 +1,6 @@
 import { createMD5 } from 'hash-wasm';
 import { toast } from 'sonner';
 
-// 上传时所使用的UA
-export const UA =
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.61';
 // 上传时所用的身份验证
 const AUTHORIZATION = 'e7e380401dc9a31fce2117a60c99ba04';
 // 上传参数
@@ -21,7 +18,7 @@ export interface UploadParam {
 export async function calcFileMD5(file: File): Promise<string> {
     const md5 = await createMD5();
     // 这里为了提示性能，使用了ReadableStream
-    // 关于ReadableStrean的详细介绍及用法：https://developer.mozilla.org/zh-CN/docs/Web/API/ReadableStream
+    // 关于ReadableStream的详细介绍及用法：https://developer.mozilla.org/zh-CN/docs/Web/API/ReadableStream
     const reader = file.stream().getReader();
 
     while (true) {

@@ -13,4 +13,5 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export { useChat } from './use-chat';

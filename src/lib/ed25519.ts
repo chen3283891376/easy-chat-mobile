@@ -1,6 +1,7 @@
 import * as ed from '@noble/ed25519';
 import { sha512 } from '@noble/hashes/sha2.js';
 
+// @ts-expect-error 莫名的类型错误（
 ed.hashes.sha512 = sha512;
 
 export function toHex(bytes: Uint8Array): string {

@@ -230,7 +230,7 @@ storage.clearNotifications = async (username: string, auth?: Auth) => {
     await storage.set(key, JSON.stringify([]), auth);
 };
 
-// Respond to an invite (accept/decline). When accepting, include the roomId you decrypted from payload.
+// Respond to an invitation accept/decline. When accepting, include the roomId you decrypted from payload.
 storage.respondInvite = async (
     username: string,
     inviter: string,

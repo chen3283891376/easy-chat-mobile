@@ -81,6 +81,7 @@ export function RoomProvider({ children }: { children: ReactNode }) {
     );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useRoom = () => {
     const ctx = useContext(RoomContext);
     if (!ctx) throw new Error('useRoom must be used within RoomProvider');

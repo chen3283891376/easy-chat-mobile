@@ -11,7 +11,7 @@ const ARGON2_OPT = {
     t: 3, // iterations
     m: 65536, // memory (KB) -> 64MB
     p: 4, // parallelism
-    dkLen: 32, // 输出32字节 = AES‑256密钥
+    dkLen: 32, // 输出32个字节 = AES‑256密钥
 };
 
 export function encryptPrivateKey(privateKey: string, password: string): string {
