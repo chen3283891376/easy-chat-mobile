@@ -127,6 +127,10 @@ storage.getRooms = async (username: string, auth?: Auth) => {
 
     const url = `/api/auth/rooms/${encodeURIComponent(username)}?sig=${sig}&timestamp=${time}&nonce=${nonce}`;
     const res = await fetch(url);
+    if (res.status === 404) {
+        localStorage.clear();
+        location.reload();
+    }
     if (!res.ok) throw new Error('Failed to get rooms');
     const d = await res.json();
     return d.data;
