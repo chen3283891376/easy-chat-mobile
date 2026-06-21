@@ -187,9 +187,7 @@ function ChatApp() {
     return (
         <div className="w-full h-screen bg-slate-100 flex flex-col overflow-hidden">
             {/* 主内容区域 */}
-            <div className="flex-1 p-4 overflow-hidden h-[90%]">
-                {renderCurrentPage()}
-            </div>
+            <div className="flex-1 p-4 overflow-hidden h-[90%]">{renderCurrentPage()}</div>
 
             {/* 底部Tab导航栏 */}
             <div className="h-16 bg-white border-t flex items-center justify-around shrink-0">
@@ -254,11 +252,7 @@ function ChatApp() {
                                     <Button size="icon" onClick={() => onUsernameSave(editNameInput)}>
                                         <CheckIcon size={18} />
                                     </Button>
-                                    <Button
-                                        size="icon"
-                                        variant="ghost"
-                                        onClick={() => setIsEditingUsername(false)}
-                                    >
+                                    <Button size="icon" variant="ghost" onClick={() => setIsEditingUsername(false)}>
                                         <XIcon size={18} />
                                     </Button>
                                 </div>
