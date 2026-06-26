@@ -8,7 +8,7 @@ import { storage } from '@/lib/storage';
 import { genRoomId } from '@/lib/utils';
 import { toast } from 'sonner';
 import { Button } from './ui/button';
-import { DownloadIcon, MessageCircleIcon, QuoteIcon, UndoIcon } from 'lucide-react';
+import { CopyIcon, DownloadIcon, MessageCircleIcon, QuoteIcon, UndoIcon } from 'lucide-react';
 import type { ChatMessage } from '@/types/message';
 import type { IFile } from '@/hooks/useFileUpload';
 import { FileDisplay } from './FileDisplay';
@@ -24,6 +24,7 @@ type MessageActionBarProps = {
     onQuote: () => void;
     onRecall: () => void;
     onClose: () => void;
+    handleCopy: () => void;
 };
 
 const MessageActionBar = ({
@@ -37,10 +38,15 @@ const MessageActionBar = ({
     onQuote,
     onRecall,
     onClose,
+    handleCopy
 }: MessageActionBarProps) => {
     if (!showActionBar || isRecalled) return null;
     return (
         <div className="flex flex-wrap gap-2 mt-2 p-2 rounded-lg bg-slate-100 dark:bg-slate-800">
+            <Button size="sm" variant="outline" onClick={handleCopy}>
+                <CopyIcon className={'w-4 h-4 mr-1'} />
+                复制
+            </Button>
             {hasPrivateChatEntry && (
                 <Button size="sm" variant="outline" onClick={onPrivateChat}>
                     <MessageCircleIcon className="w-4 h-4 mr-1" />
@@ -270,6 +276,11 @@ export const MessageBubble = ({ message, currentUsername }: MessageBubbleProps) 
         const suffix = link.split('python_assets/')[1];
         return `https://livefile.xesimg.com/programme/python_assets/844958913c304c040803a9d7f79f898e.html?name=${encodeURIComponent(fileName)}&file=${suffix}`;
     }, [fileData?.link, fileData?.name]);
+    
+    const handleCopy = async () => {
+        if (isMedia) return;
+        await navigator.clipboard.writeText(message.msg)
+    }
 
     return (
         <div className={`flex ${isCurrentUser ? 'justify-end' : 'justify-start'} mb-4`} onClick={hideActionBar}>
@@ -365,6 +376,7 @@ export const MessageBubble = ({ message, currentUsername }: MessageBubbleProps) 
                             onQuote={handleQuote}
                             onRecall={handleRecall}
                             onClose={hideActionBar}
+                            handleCopy={handleCopy}
                         />
                     </div>
                 </div>
