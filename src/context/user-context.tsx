@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, type ReactNode } from 'react';
 import type { User } from '@/types/message';
 import { storage } from '../lib/storage';
+import { eventBus } from './event-bus';
 
 interface UserContextType {
     user: User | null;
@@ -31,6 +32,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
                         const parsed = JSON.parse(roomsStr as string);
                         if (Array.isArray(parsed)) {
                             localStorage.setItem('chat-rooms', JSON.stringify(parsed));
+                            eventBus.emit('changeRooms', { data: parsed });
                         }
                     }
                 }
