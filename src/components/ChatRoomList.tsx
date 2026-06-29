@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { DeleteIcon, MoreHorizontal } from 'lucide-react';
+import { DeleteIcon, EditIcon, MoreHorizontal } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { ScrollArea } from '../components/ui/scroll-area';
-import { useChat } from '../context/ChatContext';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '../components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter } from '../components/ui/sheet';
+import { Field } from './ui/field';
+import { Label } from './ui/label';
+import { Input } from './ui/input';
+import { useRoom } from '@/context/room-context';
 
 type RoomItem = {
     id: string;
@@ -11,16 +14,37 @@ type RoomItem = {
 };
 
 export function ChatRoomList() {
-    const { roomList, currentRoom, switchToRoom, setRoomList } = useChat();
-    // 控制底部操作弹窗、当前选中操作房间
+    const {
+        roomList,
+        currentRoom,
+        switchToRoom,
+        setRoomList,
+        editingRoomName,
+        setEditingRoomName,
+        setEditingRoom,
+        editRoomName,
+    } = useRoom();
+
+    // 房间操作底部弹窗
     const [actionSheetOpen, setActionSheetOpen] = useState(false);
+    // 编辑房间底部弹窗
+    const [editSheetOpen, setEditSheetOpen] = useState(false);
     const [targetRoom, setTargetRoom] = useState<RoomItem | null>(null);
 
-    // 打开房间操作弹窗
+    // 打开操作面板
     const openRoomActionSheet = (room: RoomItem, e: React.MouseEvent) => {
-        e.stopPropagation(); // 阻止触发切换房间
+        e.stopPropagation();
         setTargetRoom(room);
         setActionSheetOpen(true);
+    };
+
+    // 打开编辑弹窗
+    const openEditSheet = () => {
+        if (!targetRoom) return;
+        setEditingRoom(targetRoom);
+        setEditingRoomName(targetRoom.name);
+        setActionSheetOpen(false);
+        setEditSheetOpen(true);
     };
 
     // 删除房间
@@ -32,9 +56,15 @@ export function ChatRoomList() {
         });
     };
 
+    // 保存房间名称修改
+    const saveRoomName = async () => {
+        await editRoomName();
+        setEditSheetOpen(false);
+    };
+
     return (
         <>
-            {/* 房间列表滚动区域，移动端高度自适应 */}
+            {/* 房间列表滚动区域 */}
             <ScrollArea className="h-[45vh] md:h-[65vh] px-1 border rounded-lg">
                 <div className="space-y-2">
                     {roomList.map(room => (
@@ -48,7 +78,7 @@ export function ChatRoomList() {
                                 # {room.name}
                             </Button>
 
-                            {/* 移动端更多操作按钮，唤起底部Sheet */}
+                            {/* 更多操作按钮 */}
                             <Button
                                 size="icon"
                                 variant="ghost"
@@ -62,14 +92,17 @@ export function ChatRoomList() {
                 </div>
             </ScrollArea>
 
-            {/* 移动端底部弹出操作面板 Sheet */}
+            {/* 房间操作底部Sheet */}
             <Sheet open={actionSheetOpen} onOpenChange={setActionSheetOpen}>
-                {/* side="bottom" 底部弹窗，移动端标准交互 */}
                 <SheetContent side="bottom" className="rounded-t-2xl px-4 pb-6">
                     <SheetHeader className="py-2">
                         <SheetTitle>房间操作 - {targetRoom?.name}</SheetTitle>
                     </SheetHeader>
                     <div className="mt-4 flex flex-col gap-3">
+                        <Button variant="secondary" className="w-full h-11 text-base" onClick={openEditSheet}>
+                            <EditIcon className="mr-2 h-4 w-4" />
+                            编辑房间名称
+                        </Button>
                         <Button variant="destructive" className="w-full h-11 text-base" onClick={handleDeleteRoom}>
                             <DeleteIcon className="mr-2 h-4 w-4" />
                             删除此房间
@@ -82,6 +115,28 @@ export function ChatRoomList() {
                             取消
                         </Button>
                     </div>
+                </SheetContent>
+            </Sheet>
+
+            <Sheet open={editSheetOpen} onOpenChange={setEditSheetOpen}>
+                <SheetContent side="bottom" className="rounded-t-2xl px-4 pb-6">
+                    <SheetHeader className="py-2">
+                        <SheetTitle>编辑房间名</SheetTitle>
+                    </SheetHeader>
+                    <div className="py-4">
+                        <Field>
+                            <Label>房间名</Label>
+                            <Input value={editingRoomName} onChange={e => setEditingRoomName(e.target.value)} />
+                        </Field>
+                    </div>
+                    <SheetFooter className="flex flex-row gap-2 mt-2">
+                        <Button variant="outline" className="flex-1" onClick={() => setEditSheetOpen(false)}>
+                            取消
+                        </Button>
+                        <Button className="flex-1" onClick={saveRoomName}>
+                            保存
+                        </Button>
+                    </SheetFooter>
                 </SheetContent>
             </Sheet>
         </>
