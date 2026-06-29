@@ -66,13 +66,13 @@ export function ChatRoomList() {
         <>
             {/* 房间列表滚动区域 */}
             <ScrollArea className="h-[45vh] md:h-[65vh] px-1 border rounded-lg">
-                <div className="space-y-2">
+                <div className="space-y-3 py-1">
                     {roomList.map(room => (
-                        <div key={room.id} className="flex items-center gap-1 w-full">
+                        <div key={room.id} className="flex items-center gap-2 w-full py-1">
                             {/* 房间切换按钮 */}
                             <Button
                                 variant={room.id === currentRoom.id ? 'default' : 'ghost'}
-                                className="flex-1 justify-start text-sm"
+                                className="flex-1 justify-start text-base h-11 px-3"
                                 onClick={() => switchToRoom(room)}
                             >
                                 # {room.name}
@@ -82,10 +82,10 @@ export function ChatRoomList() {
                             <Button
                                 size="icon"
                                 variant="ghost"
-                                className="h-8 w-8 shrink-0"
+                                className="h-10 w-10 shrink-0"
                                 onClick={e => openRoomActionSheet(room, e)}
                             >
-                                <MoreHorizontal className="h-4 w-4" />
+                                <MoreHorizontal className="h-5 w-5" />
                             </Button>
                         </div>
                     ))}
@@ -108,7 +108,7 @@ export function ChatRoomList() {
                             删除此房间
                         </Button>
                         <Button
-                            variant="ghost"
+                            variant="outline"
                             className="w-full h-11 text-base"
                             onClick={() => setActionSheetOpen(false)}
                         >
@@ -126,14 +126,22 @@ export function ChatRoomList() {
                     <div className="py-4">
                         <Field>
                             <Label>房间名</Label>
-                            <Input value={editingRoomName} onChange={e => setEditingRoomName(e.target.value)} />
+                            <Input
+                                className="h-11 text-base"
+                                value={editingRoomName}
+                                onChange={e => setEditingRoomName(e.target.value)}
+                            />
                         </Field>
                     </div>
                     <SheetFooter className="flex flex-row gap-2 mt-2">
-                        <Button variant="outline" className="flex-1" onClick={() => setEditSheetOpen(false)}>
+                        <Button
+                            variant="outline"
+                            className="flex-1 h-11 text-base"
+                            onClick={() => setEditSheetOpen(false)}
+                        >
                             取消
                         </Button>
-                        <Button className="flex-1" onClick={saveRoomName}>
+                        <Button className="flex-1 h-11 text-base" onClick={saveRoomName}>
                             保存
                         </Button>
                     </SheetFooter>

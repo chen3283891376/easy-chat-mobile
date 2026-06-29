@@ -64,7 +64,7 @@ function ChatApp() {
 
     // 房间列表页面
     const renderRoomPage = () => (
-        <div className="flex flex-col gap-4 h-full overflow-y-auto pb-24">
+        <div className="flex flex-col gap-4 h-full overflow-y-auto">
             <h3 className="text-xl font-semibold">聊天室</h3>
             <Separator />
 
@@ -75,17 +75,17 @@ function ChatApp() {
 
             <ChatRoomList />
 
-            <div className="flex flex-col gap-3 mt-2">
+            <div className="flex flex-row gap-3 mt-2">
                 {/* 创建房间弹窗 */}
                 <Sheet>
                     <SheetTrigger asChild>
-                        <Button className="w-full">创建房间</Button>
+                        <Button className="flex-1 h-11">创建房间</Button>
                     </SheetTrigger>
                     <SheetContent side="bottom">
                         <SheetHeader className="py-2">
                             <SheetTitle>创建房间</SheetTitle>
                         </SheetHeader>
-                        <div className="py-4">
+                        <div className="p-4">
                             <Input
                                 value={newRoomName}
                                 onChange={e => setNewRoomName(e.target.value)}
@@ -110,7 +110,7 @@ function ChatApp() {
                 {/* 加入房间弹窗 */}
                 <Sheet>
                     <SheetTrigger asChild>
-                        <Button className="w-full" variant="secondary">
+                        <Button className="flex-1 h-11" variant="outline">
                             加入房间
                         </Button>
                     </SheetTrigger>
@@ -118,7 +118,7 @@ function ChatApp() {
                         <SheetHeader className="py-2">
                             <SheetTitle>加入房间</SheetTitle>
                         </SheetHeader>
-                        <div className="py-4 flex flex-col gap-3">
+                        <div className="p-4 flex flex-col gap-3">
                             <Input
                                 value={joinRoomId}
                                 onChange={e => setJoinRoomId(e.target.value)}
@@ -152,8 +152,7 @@ function ChatApp() {
     const renderChatPage = () => (
         <div className="flex flex-col h-full overflow-hidden">
             <div className="border-b px-4 py-3 bg-slate-50 shrink-0">
-                <div className="text-sm font-medium">聊天</div>
-                <div className="text-xs text-slate-500">{currentRoom.name}</div>
+                <div className="text-lg text-slate-500">{currentRoom.name}</div>
                 <div className="text-xs text-slate-400">ID: {currentRoom.id}</div>
             </div>
             <ChatMessageArea className="flex-1 overflow-y-auto h-full" />
@@ -223,9 +222,9 @@ function ChatApp() {
                     <SheetHeader>
                         <SheetTitle>个人信息</SheetTitle>
                     </SheetHeader>
-                    <div className="p-6 space-y-6">
+                    <div className="px-4 pb-3 space-y-6">
                         {/* 用户名修改 */}
-                        <div className="space-y-2">
+                        <div>
                             <div className="text-sm text-muted-foreground">当前用户名</div>
                             {!isEditingUsername ? (
                                 <div className="flex items-center justify-between">
@@ -259,12 +258,12 @@ function ChatApp() {
                             )}
                         </div>
 
-                        <Separator />
+                        <Separator className={'mb-3'} />
 
                         {/* 邀请快捷入口 */}
                         <Button
                             variant="secondary"
-                            className="w-full"
+                            className="w-full h-11 mb-2"
                             onClick={() => {
                                 setOpenUserSheet(false);
                                 setCurrentPage('invite');
@@ -276,13 +275,13 @@ function ChatApp() {
                         {/* 登出按钮 */}
                         <Button
                             variant="destructive"
-                            className="w-full"
+                            className="w-full h-11"
                             onClick={() => {
                                 logout();
                                 setOpenUserSheet(false);
                             }}
                         >
-                            <LogOutIcon size={18} className="mr-2" />
+                            <LogOutIcon size={18} />
                             退出登录
                         </Button>
                     </div>

@@ -71,7 +71,7 @@ export function Invites() {
     return (
         <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-                <Button size="sm" className="w-full">
+                <Button size="lg" className="w-full h-11">
                     邀请管理
                 </Button>
             </SheetTrigger>
